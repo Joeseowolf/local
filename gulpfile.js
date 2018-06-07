@@ -15,17 +15,25 @@ gulp.task('pug', function (cb) {
   .pipe( rename({
     extname: '.php'
   }) )
-  .pipe( gulp.dest('dist/') );
+  .pipe( gulp.dest('/') );
 });
 
 gulp.task('auto-reload', function () {
   browserSync.init({
-    proxy: 'http://localhost/dist',
+    proxy: 'localhost',
     files: ["**/*.php"]
   });
 });
 
 gulp.task('watch', ['auto-reload', 'pug'], function() {
   gulp.watch('src/*.pug', ['pug']);
-  gulp.watch('dist/css/*.css').on('change', browserSync.reload);
+  gulp.watch('css/*.css').on('change', browserSync.reload);
+});
+
+gulp.task('html', function() {
+  browserSync.init({
+    proxy:'localhost'
+  });
+  gulp.watch('*.html').on('change', browserSync.reload);
+  gulp.watch('css/*.css').on('change', browserSync.reload);
 });
